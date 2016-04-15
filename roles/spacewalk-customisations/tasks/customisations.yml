@@ -40,6 +40,3 @@
 - name: Set sync repo schedules
   command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_setsyncschedule {{item.label}} 0 30 3 ? * *
   with_items: "{{spacewalk_repo_info}}"
-
-
-
