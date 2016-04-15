@@ -1,0 +1,31 @@
+---
+spacewalk_admin_email: root@localhost
+spacewalk_ssl_org: Spacewalk Org
+spacewalk_ssl_org_unit: Spacewalk
+spacewalk_ssl_set_city: My City
+spacewalk_ssl_set_state: My State
+spacewalk_ssl_set_country: GB
+spacewalk_ssl_password: spacewalk
+spacewalk_ssl_set_email: root@localhost
+spacewalk_ssl_config_sslvhost: Y
+spacewalk_db_backend: postgresql
+spacewalk_db_name: spaceschema
+spacewalk_db_user: spaceuser
+spacewalk_db_password: spacepw
+spacewalk_db_host: localhost
+spacewalk_db_port: 5432
+spacewalk_enable_tftp: Y
+spacewalk_admin_password: test123
+spacewalk_scripts_dir: /opt/spacewalk-scripts/
+
+spacewalk_repo_info:
+  - {name: 'CentOS_6', label: 'centos-6', repo: 'CentOS_6', repo_url: 'http://mirror.ox.ac.uk/sites/mirror.centos.org/6/os/x86_64/', arch: 'x86_64', checksum: 'sha256'}
+  - {name: 'CentOS_7', label: 'centos-7', repo: 'CentOS_7', repo_url: 'http://mirror.ox.ac.uk/sites/mirror.centos.org/7/os/x86_64/', arch: 'x86_64', checksum: 'sha256'}
+
+spacewalk_child_repo_info:
+  - {name: 'CentOS_7_epel', label: 'centos-7-epel', parent: 'centos-7', repo: 'CentOS_7_epel', repo_url: 'http://anorien.csc.warwick.ac.uk/mirrors/epel/7/x86_64/', arch: 'x86_64', checksum: 'sha256'}
+  - {name: 'CentOS_6_epel', label: 'centos-6-epel', parent: 'centos-6', repo: 'CentOS_6_epel', repo_url: 'http://anorien.csc.warwick.ac.uk/mirrors/epel/6/x86_64/', arch: 'x86_64', checksum: 'sha256'}
+
+spacewalk_deb_repo_info:
+  - {name: 'Ubuntu_Trusty_14_04', label: 'ubuntu-1404', repo: 'Ubuntu1404', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/trusty/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_Precise_12_04', label: 'ubuntu-1204', repo: 'Ubuntu1204', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/precise/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}

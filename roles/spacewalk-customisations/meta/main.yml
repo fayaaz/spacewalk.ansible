@@ -1,0 +1,4 @@
+#dependencies:
+  #- { role: yum_repo, name: epel }
+  #- { role: yum_repo, name: jpackage }
+  #- { role: yum_repo, name: spacewalk }

@@ -1,0 +1,45 @@
+---
+- name: Install spacecmd
+  yum: name=spacecmd
+
+- name: Add base channels
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_create -n {{item.name}} -l {{item.label}} -a x86_64 -c sha512
+  ignore_errors: true
+  with_items: "{{spacewalk_repo_info}}"
+
+- name: Add child channels
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_create -n {{item.name}} -p {{item.parent}} -l {{item.label}} -a x86_64 -c sha512
+  ignore_errors: true
+  with_items: "{{spacewalk_child_repo_info}}"
+
+- name: Add Repositories
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- repo_create -n {{item.name}} -u {{item.repo_url}}
+  ignore_errors: true
+  with_items: "{{ spacewalk_repo_info | union(spacewalk_child_repo_info) }}"
+
+- name: Add activation keys
+  command: spacecmd --user=admin --password=test123 -- activationkey_create -n {{item.label}} -b {{item.label}} -d {{item.name}}
+  ignore_errors: true
+  with_items: "{{spacewalk_repo_info}}"
+
+- name: Add activation keys for child channels
+  command: spacecmd --user=admin --password=test123 -- activationkey_create -n {{item.label}} -b {{item.parent}} -d {{item.name}}
+  ignore_errors: true
+  with_items: "{{spacewalk_child_repo_info}}"
+
+- name: Associate repos to channels
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_addrepo {{item.label}} {{item.repo}}
+  with_items: "{{ spacewalk_repo_info | union(spacewalk_child_repo_info) }}"
+
+- name: Associate child channels with activationkeys
+  command: spacecmd --user=admin --password=test123 -- activationkey_addchildchannels 1-{{item.label}}  {{item.label}}
+  ignore_errors: true
+  with_items: "{{spacewalk_child_repo_info}}"
+
+
+- name: Set sync repo schedules
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_setsyncschedule {{item.label}} 0 30 3 ? * *
+  with_items: "{{spacewalk_repo_info}}"
+
+
+

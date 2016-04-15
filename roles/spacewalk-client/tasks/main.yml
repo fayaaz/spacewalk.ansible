@@ -1,0 +1,28 @@
+---
+- name: install spacewalk repository from URL
+  yum: name=http://yum.spacewalkproject.org/2.4-client/RHEL/{{ansible_distribution_major_version}}/x86_64/spacewalk-client-repo-2.4-3.el{{ansible_distribution_major_version}}.noarch.rpm state=present
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6"
+
+- name: install extra packages for enterprise linux (EPEL) from URL (CentOS 6)
+  yum: name=http://dl.fedoraproject.org/pub/epel/6/{{ ansible_machine }}/epel-release-6-8.noarch.rpm state=present
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6"
+
+- name: Install all packages for client
+  yum: name={{item}} state=present
+  with_items:
+   - rhn-client-tools
+   - rhn-check
+   - rhn-setup
+   - rhnsd
+   - m2crypto
+   - yum-rhn-plugin
+  when: ansible_distribution == "CentOS"
+
+- name: Install Spacewalk CA certificate from server
+  yum: name=http://{{ hostvars['spacewalk']['ansible_ssh_host'] }}/pub/rhn-org-trusted-ssl-cert-1.0-1.noarch.rpm state=present
+  notify: register with spacewalk server
+
+- name: register with spacewalk server
+  command: rhnreg_ks --serverUrl=http://{{ hostvars['spacewalk']['ansible_ssh_host'] }}/XMLRPC --activationkey=1-centos-{{ansible_distribution_major_version}}
+  when: ansible_distribution == "CentOS"
+  ignore_errors: true

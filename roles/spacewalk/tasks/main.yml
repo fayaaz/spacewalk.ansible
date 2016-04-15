@@ -1,0 +1,28 @@
+---
+  - name: Enable EPEL
+    yum: name=epel-release
+
+  - name: Install jpackage repo
+    template: src=jpackage.j2 dest=/etc/yum.repos.d/jpackage-generic.repo
+
+  - name: Install Spacewalk repository
+    yum: name=http://yum.spacewalkproject.org/2.4/RHEL/{{ansible_distribution_major_version}}/x86_64/spacewalk-repo-2.4-3.el{{ansible_distribution_major_version}}.noarch.rpm
+
+  - name: Install Spacewalk-setup-postgresql
+    yum: name=spacewalk-setup-postgresql state=present
+
+  - name: Ensure hostname in /etc/hosts
+    lineinfile: dest=/etc/hosts regexp=^{{ansible_default_ipv4.address}} line="{{ansible_default_ipv4.address}} spacewalk-test"
+
+  - name: Install spacewalk-postgresql
+    yum: name=spacewalk-postgresql state=present
+
+  - name: Copy answers file for spacewalk setip
+    template: src=answers.j2 dest=/var/tmp/answers owner=root group=root mode=0600
+
+  - name: Install spacewalk
+    command: spacewalk-setup --disconnected --answer-file=/var/tmp/answers
+             creates=/var/satellite
+  #- template: src=iptables.j2 dest=/etc/sysconfig/iptables owner=root group=root mode=0600
+  #  notify: restart_iptables
+

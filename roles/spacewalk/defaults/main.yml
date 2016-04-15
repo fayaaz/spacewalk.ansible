@@ -1,0 +1,18 @@
+---
+spacewalk_admin_email: root@localhost
+spacewalk_ssl_org: Spacewalk Org
+spacewalk_ssl_org_unit: Spacewalk
+spacewalk_ssl_set_city: My City
+spacewalk_ssl_set_state: My State
+spacewalk_ssl_set_country: GB
+spacewalk_ssl_password: spacewalk
+spacewalk_ssl_set_email: root@localhost
+spacewalk_ssl_config_sslvhost: Y
+spacewalk_db_backend: postgresql
+spacewalk_db_name: spaceschema
+spacewalk_db_user: spaceuser
+spacewalk_db_password: spacepw
+spacewalk_db_host: localhost
+spacewalk_db_port: 5432
+spacewalk_enable_tftp: Y
+
