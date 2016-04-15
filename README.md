@@ -7,6 +7,8 @@ Install a full Spacewalk server on CentOS 7 and also adds:
 - Ubuntu 14.04 repo, channel and activation key
 - Ubuntu 12.04 repo, channel and activation key
 
+Thanks to geerlingguy's iptables role, which is included here.
+
 To do:
 
 - Add ubuntu support to client role
