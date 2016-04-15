@@ -12,3 +12,14 @@ To do:
 - Add ubuntu support to client role
 - Update client role to automatically pick EPEL for activation key
 - Look at also adding Debian Jessie/Wheezy
+
+What /etc/ansible/hosts looks like:
+
+```
+[spacewalk-server]
+spacewalk ansible_ssh_host=XXX.XXX.XXX.XXX
+
+[spacewalk-clients]
+Client01 ansible_ssh_host=XXX.XXX.XXX.XXX
+Client02 ansible_ssh_host=XXX.XXX.XXX.XXX
+```
