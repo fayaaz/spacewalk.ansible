@@ -31,6 +31,3 @@
     - role: spacewalk-customisations
       spacewalk_admin_password: "{{admin_password}}"
     - role: spacewalk-client
-
-    #- { role: logstash-forwarder }
-    #- collectd
