@@ -1,14 +1,20 @@
 ---
-- hosts: spacewalk-test-server
+- hosts: spacewalk-server
   sudo: yes
   pre_tasks:
-    - hostname: name=spacewalk-test
+    - hostname: name=spacewalk02
   roles:
     - spacewalk
-    - { role: iptables, firewall_allowed_tcp_ports: [22, 80, 443, 5222, 5269] }
+    - role: iptables
+      firewall_allowed_tcp_ports:
+      - 22
+      - 80
+      - 443
+      - 5222
+      - 5269
 
 
-- hosts: spacewalk-test-server
+- hosts: spacewalk-server
   sudo: yes
 
   vars_prompt:

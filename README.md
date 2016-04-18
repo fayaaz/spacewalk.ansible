@@ -11,11 +11,12 @@ Thanks to geerlingguy's iptables role, which is included here to configure the f
 
 ####To do:
 
-- Add ubuntu support to client role
+- Add Ubuntu support to client role
+- Add Ubuntu
 - Update client role to automatically pick EPEL for activation key
 - Look at also adding Debian Jessie/Wheezy
 
-What /etc/ansible/hosts looks like:
+What my inventory (/etc/ansible/hosts) looks like:
 
 ```
 [spacewalk-server]
@@ -40,3 +41,5 @@ The prompt will ask for the password to continue.
 ```
 ansible-playbook spacewalk-clients.yml
 ```
+
+Extra credits:

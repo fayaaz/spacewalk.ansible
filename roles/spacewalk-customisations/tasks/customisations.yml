@@ -18,12 +18,12 @@
   with_items: "{{ spacewalk_repo_info | union(spacewalk_child_repo_info) }}"
 
 - name: Add activation keys
-  command: spacecmd --user=admin --password=test123 -- activationkey_create -n {{item.label}} -b {{item.label}} -d {{item.name}}
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- activationkey_create -n {{item.label}} -b {{item.label}} -d {{item.name}}
   ignore_errors: true
   with_items: "{{spacewalk_repo_info}}"
 
 - name: Add activation keys for child channels
-  command: spacecmd --user=admin --password=test123 -- activationkey_create -n {{item.label}} -b {{item.parent}} -d {{item.name}}
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- activationkey_create -n {{item.label}} -b {{item.parent}} -d {{item.name}}
   ignore_errors: true
   with_items: "{{spacewalk_child_repo_info}}"
 
@@ -32,7 +32,7 @@
   with_items: "{{ spacewalk_repo_info | union(spacewalk_child_repo_info) }}"
 
 - name: Associate child channels with activationkeys
-  command: spacecmd --user=admin --password=test123 -- activationkey_addchildchannels 1-{{item.label}}  {{item.label}}
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- activationkey_addchildchannels 1-{{item.label}}  {{item.label}}
   ignore_errors: true
   with_items: "{{spacewalk_child_repo_info}}"
 

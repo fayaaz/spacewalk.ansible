@@ -1,4 +1,1 @@
 ---
-- name: register with spacewalk server
-  command: rhnreg_ks --serverUrl=http://{{ hostvars['spacewalk']['ansible_ssh_host'] }}/XMLRPC --activationkey=1-centos-{{ansible_distribution_major_version}}
-  when: ansible_distribution == "CentOS"
