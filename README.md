@@ -2,18 +2,17 @@ Spacewalk playbooks and roles
 ==============
 
 Install a full Spacewalk server on CentOS 7 and also adds customizations:
-- CentOS 6 repo, channel and activation key (+epel)
-- CentOS 7 repo, channel and activation key(+epel)
-- Ubuntu 14.04 repo, channel and activation key (and repo sync scripts)
-- Ubuntu 12.04 repo, channel and activation key (and repo sync scripts)
+- CentOS 6 base+extras+epel+updates repos, channel and activation key 
+- CentOS 7 base+extras+epel+updates repos, channel and activation key
+- Ubuntu 16.06 base+security repos, channel and activation key (and repo sync scripts)
+- Ubuntu 14.04 base+security repos, channel and activation key (and repo sync scripts)
+- Ubuntu 12.04 base+security repos, channel and activation key (and repo sync scripts)
 
 Thanks to geerlingguy's iptables role, which is included here to configure the firewall on the server.
 
 ####To do:
 
-- Add Ubuntu support to client role
-- Add Ubuntu
-- Update client role to automatically pick EPEL for activation key
+- Add Ubuntu support to client role (16.04 now working and tested)
 - Look at also adding Debian Jessie/Wheezy
 
 What my inventory (/etc/ansible/hosts) looks like:
@@ -43,3 +42,4 @@ ansible-playbook spacewalk-clients.yml
 ```
 
 Extra credits:
+Blog post: [Running Ubuntu Servers with Spacewalk](http://www.devops-blog.net/spacewalk/registering-ubuntu-and-debian-servers-with-spacewalk)
