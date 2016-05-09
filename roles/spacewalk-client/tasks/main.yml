@@ -12,7 +12,9 @@
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
 
 - name: Install all packages for client
-  yum: name={{item}} state=present
+  yum:
+    name: "{{item}}"
+    state: present
   with_items:
    - rhn-client-tools
    - rhn-check
@@ -22,16 +24,25 @@
    - yum-rhn-plugin
   when: ansible_distribution == "CentOS"
 
+- name: Install package for Ubuntu
+  apt:
+    name: apt-transport-spacewalk
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
 - name: Install Spacewalk CA certificate from server
   yum:
-    name: http://{{ hostvars['spacewalk']['ansible_ssh_host'] }}/pub/rhn-org-trusted-ssl-cert-1.0-1.noarch.rpm
+    name: "http://{{ hostvars['spacewalk']['ansible_ssh_host'] }}/pub/rhn-org-trusted-ssl-cert-1.0-1.noarch.rpm"
     state: present
   notify: register with spacewalk server
+  when: ansible_distribution == "CentOS"
 
 - name: register with spacewalk server
-  rhn_register:
-    state: present
-    server_url: "http://{{ hostvars['spacewalk']['ansible_ssh_host'] }}/XMLRPC"
-    activationkey: "1-centos-{{ansible_distribution_major_version}}-epel"
+  command: rhnreg_ks --serverUrl=http://{{ hostvars['spacewalk']['ansible_ssh_host'] }}/XMLRPC --activationkey=1-centos-{{ansible_distribution_major_version}}-epel
   when: ansible_distribution == "CentOS"
+  ignore_errors: true
+
+- name: register with spacewalk server
+  command: rhnreg_ks --serverUrl=http://{{ hostvars['spacewalk']['ansible_ssh_host'] }}/XMLRPC --activationkey=1-ubuntu-{{ansible_distribution_version.split('.')|join('')}}-security
+  when: ansible_distribution == "Ubuntu"
   ignore_errors: true
