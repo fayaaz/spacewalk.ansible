@@ -17,6 +17,9 @@
   - name: Install spacewalk-postgresql
     yum: name=spacewalk-postgresql state=present
 
+  - name: Init postgress db - fix for bug 1524221
+    command: postgresql-setup initdb
+
   - name: Copy answers file for spacewalk setip
     template: src=answers.j2 dest=/var/tmp/answers owner=root group=root mode=0600
 
