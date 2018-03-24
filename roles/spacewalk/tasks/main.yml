@@ -11,12 +11,13 @@
   - name: Configuring environment
     lineinfile:
       dest: "{{ environment_file }}"
-      line: "{{ item.name }}='{{ item.value }}'"
-      with_items:
-      - { name: 'LANGUAGE', value: 'en_US:en' }
-      - { name: 'LC_ALL', value: 'en_US.utf8' }
-      - { name: 'LC_CTYPE', value: 'en_US.utf8' }
-      - { name: 'LANG', value: 'en_US.utf8' }
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    with_items:
+      - { regexp: '^LANGUAGE', line: 'LANGUAGE="en_US:en"' }
+      - { regexp: '^LC_ALL', line: 'LC_ALL="en_US:en"' }
+      - { regexp: '^LC_CTYPE', line: 'LC_CTYPE="en_US:en"' }
+      - { regexp: '^LANG', line: 'LANG="en_US:en"' }
 
   - name: Enable EPEL
     yum: name=epel-release
