@@ -1,4 +1,8 @@
 ---
+  - name: Disable SELinux
+    selinux:
+      state: disabled
+
   - name: Ensure environment file exists
     file:
       path: "{{ environment_file }}"
