@@ -1,6 +1,12 @@
 Spacewalk playbooks and roles
 ==============
 
+For the lazy people: one command to install both ansible and run the playbook (requires you to be root):
+```
+sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init.sh)
+```
+
+
 Install a full Spacewalk server on CentOS 7 and also adds customizations:
 - CentOS 6 base+extras+epel+updates repos, channel and activation key 
 - CentOS 7 base+extras+epel+updates repos, channel and activation key
