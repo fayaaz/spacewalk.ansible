@@ -1,3 +1,4 @@
 ---
-spacewalk_host: spacewalk02
-spacewalk_ip: 192.168.137.200
+spacewalk_admin_email: root@localhost
+spacewalk_host: localhost
+spacewalk_ip: 127.0.0.1
