@@ -1,4 +1,28 @@
 ---
+  - name: Disable SELinux
+    selinux:
+      state: disabled
+
+  - name: Ensure environment file exists
+    file:
+      path: "{{ environment_file }}"
+      owner: "{{ environment_file_owner }}"
+      group: "{{ environment_file_group }}"
+      state: touch
+    register: environment_file_result
+    changed_when: environment_file_result.diff.before.state != "file"
+
+  - name: Configuring environment
+    lineinfile:
+      dest: "{{ environment_file }}"
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    with_items:
+      - { regexp: '^LANGUAGE=', line: 'LANGUAGE="en_US:en"' }
+      - { regexp: '^LC_ALL=', line: 'LC_ALL="en_US.utf8"' }
+      - { regexp: '^LC_CTYPE=', line: 'LC_CTYPE="en_US.utf8"' }
+      - { regexp: '^LANG=', line: 'LANG="en_US.utf8"' }
+
   - name: Enable EPEL
     yum: name=epel-release
 
@@ -16,6 +40,18 @@
 
   - name: Install spacewalk-postgresql
     yum: name=spacewalk-postgresql state=present
+    
+  - name: initialize DB - bug 1524221
+    command: postgresql-setup initdb
+
+  - name: Install yum versionlock
+    yum: name=yum-plugin-versionlock state=present
+
+  - name: Downgrade c3p0 - bug 1442140
+    command: yum -y downgrade c3p0
+
+  - name: Versionlock c3p0 - bug 1442140
+    command: yum versionlock c3p0
 
   - name: Copy answers file for spacewalk setip
     template: src=answers.j2 dest=/var/tmp/answers owner=root group=root mode=0600
