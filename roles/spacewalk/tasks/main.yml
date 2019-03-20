@@ -30,8 +30,7 @@
     template: src=jpackage.j2 dest=/etc/yum.repos.d/jpackage-generic.repo
 
   - name: Install Spacewalk repository
-    yum: name=http://yum.spacewalkproject.org/2.4/RHEL/{{ansible_distribution_major_version}}/x86_64/spacewalk-repo-2.4-3.el{{ansible_distribution_major_version}}.noarch.rpm
-
+    yum: name=https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
   - name: Install Spacewalk-setup-postgresql
     yum: name=spacewalk-setup-postgresql state=present
 
