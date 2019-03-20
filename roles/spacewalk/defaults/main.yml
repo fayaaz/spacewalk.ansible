@@ -8,6 +8,7 @@ spacewalk_ssl_set_country: GB
 spacewalk_ssl_password: spacewalk
 spacewalk_ssl_set_email: root@localhost
 spacewalk_ssl_config_sslvhost: Y
+ssl_set_common_name: spacewalk-test
 spacewalk_db_backend: postgresql
 spacewalk_db_name: spaceschema
 spacewalk_db_user: spaceuser
