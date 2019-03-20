@@ -18,4 +18,4 @@
   template: src=firewall.j2 dest=/etc/init.d/firewall owner=root group=root mode=0755
 
 - name: Ensure the firewall is enabled and will start on boot.
-  service: name=firewall state=started enabled=yes
+  systemd: name=firewall state=started enabled=yes
