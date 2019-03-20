@@ -1,18 +1,18 @@
 ---
-- name: Install pip
-  yum: name=python-pip state=present
+#- name: Install pip
+#  yum: name=python-pip state=present
 
-- name: Install/update python-debian
-  pip: name=python-debian state=latest
+#- name: Install/update python-debian
+#  pip: name=python-debian state=latest
 
-- name: Install git
-  yum: name=git state=present
+#- name: Install git
+#  yum: name=git state=present
 
-- name: get sync scripts
-  git: repo=https://github.com/philicious/spacewalk-scripts.git dest={{spacewalk_scripts_dir}}
+#- name: get sync scripts
+#  git: repo=https://github.com/philicious/spacewalk-scripts.git dest={{spacewalk_scripts_dir}}
 
-- name: Patch the python debian library
-  lineinfile: dest=/usr/lib/python2.7/site-packages/debian/debfile.py regexp='^PART_EXTS =' line="PART_EXTS = ['gz', 'bz2', 'xz', 'lzma']"
+#- name: Patch the python debian library
+#  lineinfile: dest=/usr/lib/python2.7/site-packages/debian/debfile.py regexp='^PART_EXTS =' line="PART_EXTS = ['gz', 'bz2', 'xz', 'lzma']"
 
 - name: Add deb base channels
   command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_create -n {{item.name}} -l {{item.label}} -a {{item.arch}} -c sha512
