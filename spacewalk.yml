@@ -2,7 +2,7 @@
 - hosts: spacewalk-server
   sudo: yes
   pre_tasks:
-    - hostname: name=spacewalk02
+    - hostname: name=spacewalk-test
   roles:
     - spacewalk
     - role: iptables
