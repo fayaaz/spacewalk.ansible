@@ -1,6 +1,6 @@
 ---
 - name: install spacewalk repository from URL
-  yum: name=http://yum.spacewalkproject.org/2.4-client/RHEL/{{ansible_distribution_major_version}}/x86_64/spacewalk-client-repo-2.4-3.el{{ansible_distribution_major_version}}.noarch.rpm state=present
+  yum: name=https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-client-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm state=present
   when: ansible_distribution == "CentOS"
 
 - name: install extra packages for enterprise linux (EPEL) from URL (CentOS 6)
