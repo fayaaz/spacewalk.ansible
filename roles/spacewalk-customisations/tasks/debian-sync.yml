@@ -42,6 +42,6 @@
 - name: Get the trusted SSL certs
   get_url: url=http://localhost/pub/RHN-ORG-TRUSTED-SSL-CERT dest=/usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
 
-- name: Add cron jobs for synchronizing Debian repos
-  cron: name="{{item.name}} repo sync" minute="0" hour="7,19" job="{{spacewalk_scripts_dir}}debianSync.py --username=admin --password={{spacewalk_admin_password}} --channel {{item.label}} --url {{item.repo_url}}"
-  with_items: "{{spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info)}}"
+#- name: Add cron jobs for synchronizing Debian repos
+#  cron: name="{{item.name}} repo sync" minute="0" hour="7,19" job="{{spacewalk_scripts_dir}}debianSync.py --username=admin --password={{spacewalk_admin_password}} --channel {{item.label}} --url {{item.repo_url}}"
+#  with_items: "{{spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info)}}"
