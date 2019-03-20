@@ -26,9 +26,6 @@
   - name: Enable EPEL
     yum: name=epel-release
 
-  - name: Install jpackage repo
-    template: src=jpackage.j2 dest=/etc/yum.repos.d/jpackage-generic.repo
-
   - name: Install Spacewalk repository
     yum: name=https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
   - name: Install Spacewalk-setup-postgresql
