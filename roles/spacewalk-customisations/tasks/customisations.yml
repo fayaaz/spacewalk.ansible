@@ -1,4 +1,10 @@
 ---
+- name: Copy admin account creation script
+  template: src=account.sh.j2 dest=/root/account.sh owner=root group=root mode=0755
+  
+- name: create admin account
+  command: sh /root/account.sh
+
 - name: Install spacecmd
   yum: name=spacecmd
 
