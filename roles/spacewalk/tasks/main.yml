@@ -39,15 +39,8 @@
     
   - name: initialize DB - bug 1524221
     command: postgresql-setup initdb
-
-#  - name: Install yum versionlock
-#    yum: name=yum-plugin-versionlock state=present
-
-#  - name: Downgrade c3p0 - bug 1442140
-#    command: yum -y downgrade c3p0
-
-#  - name: Versionlock c3p0 - bug 1442140
-#    command: yum versionlock c3p0
+    args:
+      creates: "/var/lib/pgsql/data/pg_ident.conf"
 
   - name: Copy answers file for spacewalk setip
     template: src=answers.j2 dest=/var/tmp/answers owner=root group=root mode=0600
