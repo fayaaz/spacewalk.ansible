@@ -1,7 +1,24 @@
 Spacewalk playbooks and roles
 ==============
 
-For the lazy people: one command to install both ansible and run the playbook (requires you to be root):
+Changes:
+- Updated to Spacewalk version 2.9
+- Updated the iptables role
+- Admin account is automatically created
+- To enable a fully automated installation the password question has been removed.
+- Default admin password is admin
+- Default company name is Spacewalk
+- The default information can be changed in this file: 
+- Due to this ansible issue: https://github.com/ansible/ansible/issues/47210 the installation for spacewalk-postgresql does not use the yum module, due to a bug in the module they playbook will fail. Should be fixed when Ansible 2.8 is released.
+- Added support for Ubuntu Bionic
+
+Hardware / Virtual sizing advisement:
+- 1 CPU, 4GB of ram minimum, 64GB of disk 
+
+Todo:
+- Add a lazy people script for: SpaceWalk proxy and client
+
+For the lazy people: one command to install both ansible and run the spacewalk server installation playbook (requires you to be root):
 ```
 sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init.sh)
 ```
@@ -10,6 +27,7 @@ sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master
 Install a full Spacewalk server on CentOS 7 and also adds customizations:
 - CentOS 6 base+extras+epel+updates repos, channel and activation key 
 - CentOS 7 base+extras+epel+updates repos, channel and activation key
+- Ubuntu 18.06 base+security repos, channel and activation key (and repo sync scripts)
 - Ubuntu 16.06 base+security repos, channel and activation key (and repo sync scripts)
 - Ubuntu 14.04 base+security repos, channel and activation key (and repo sync scripts)
 - Ubuntu 12.04 base+security repos, channel and activation key (and repo sync scripts)
