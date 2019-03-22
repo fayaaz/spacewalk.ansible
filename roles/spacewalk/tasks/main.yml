@@ -45,7 +45,8 @@
     async: 3600
     poll: 2
     register: yum_sleeper
-    warn: false
+    args:
+      warn: false
 
   - name: YUM - check on spacewalk-postgresql installation
     async_status:
