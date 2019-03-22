@@ -31,7 +31,4 @@ if [ "$(satwho | wc -l)" = "0" ]; then
   if [ "$(satwho | wc -l)" = "0" ]; then
     echo "Error: user creation failed" >&2
   fi
-else
-  echo "Error: There is already a user. Check with satwho. No user created." >&2
-  exit 1
 fi
