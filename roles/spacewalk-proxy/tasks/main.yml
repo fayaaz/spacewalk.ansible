@@ -9,7 +9,7 @@
 
 - name: create ssl-build directory
   file:
-    path: /root/ssl_build
+    path: /root/ssl-build
     state: directory
 
 - name: Copy answers file for spacewalk proxy setup
