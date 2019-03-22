@@ -16,11 +16,21 @@ Hardware / Virtual sizing advisement:
 
 
 
-For the lazy people: one command to install both ansible and run the spacewalk server installation playbook (requires you to be root):
+For the lazy people: 
+To install both ansible and the spacewalk server:
 ```
-sh <(curl -s https://raw.githubusercontent.com/fayaaz/spacewalk.ansible/master/init.sh)
+sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init-server.sh)
 ```
 
+To install both ansible and the spacewalk proxy:
+```
+sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init-server.sh)
+```
+
+To install both ansible and the spacewalk client:
+```
+sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init-server.sh)
+```
 
 Install a full Spacewalk server on CentOS 7 and also adds customizations:
 - CentOS 6 base+extras+epel+updates repos, channel and activation key 
