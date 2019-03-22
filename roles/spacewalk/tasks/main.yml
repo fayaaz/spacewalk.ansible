@@ -41,9 +41,7 @@
 
 # Can be disabled if using Ansible >=2.8
   - name: Install spacewalk-postgresql (using work around for Ansible versions lower than 2.8)
-    yum:
-      name: spacewalk-postgresql
-      state: present
+    command: yum -y install spacewalk-postgresql
     async: 3600
     poll: 2
     register: yum_sleeper
