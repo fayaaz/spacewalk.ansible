@@ -35,25 +35,8 @@
   - name: Ensure hostname in /etc/hosts
     lineinfile: dest=/etc/hosts regexp=^{{ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])}} line="{{ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])}} spacewalk-test"
 
-# Bug in Ansible <2.8, see Ansible Github issue 47210, enable if using Ansible >=2.8
-#  - name: Install spacewalk-postgresql
-#    yum: name=spacewalk-postgresql state=present
-
-# Can be disabled if using Ansible >=2.8
-  - name: Install spacewalk-postgresql (using work around for Ansible versions lower than 2.8)
-    command: yum -y install spacewalk-postgresql
-    async: 3600
-    poll: 2
-    register: yum_sleeper
-    args:
-      warn: false
-
-  - name: YUM - check on spacewalk-postgresql installation
-    async_status:
-      jid: "{{ yum_sleeper.ansible_job_id }}"
-    register: job_result
-    until: job_result.finished
-# End of codeblock that can be disabled when using Ansible >=2.8
+  - name: Install spacewalk-postgresql
+    yum: name=spacewalk-postgresql state=present
 
   - name: initialize DB - bug 1524221
     command: postgresql-setup initdb
