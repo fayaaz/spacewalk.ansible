@@ -1,6 +1,18 @@
 ---
 - hosts: spacewalk-proxies
   sudo: yes
+  pre_tasks:
+    - hostname: name=spacewalk-proxy
+  roles:
+    - role: iptables
+      firewall_allowed_tcp_ports:
+      - 22
+      - 80
+      - 443
+      - 4545
+      - 5222
+      - 5269
+  
   roles:
     - spacewalk-client
     - spacewalk-proxy
