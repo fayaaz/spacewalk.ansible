@@ -10,7 +10,6 @@ spacewalk_ip: 192.168.84.115
 version: 2.9
 use_ssl: Y
 ca_chain: /usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
-http_proxy: 
 ssl_cname_ask:
 ssl_org: Spacewalk
 ssl_orgunit: proxy1.example.com
@@ -19,4 +18,12 @@ ssl_city: Amsterdam
 ssl_state: Noord Holland 
 ssl_country: NL
 ssl_password: spacewalk
-populate_config_channel: y
+populate_config_channel: Y
+install_monitoring: Y
+enable_scout: N
+start_services: Y
+http_proxy:
+http_username:
+http_password:
+user: admin
+password: admin
