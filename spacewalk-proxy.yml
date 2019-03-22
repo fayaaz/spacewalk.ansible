@@ -1,5 +1,5 @@
 ---
-- hosts: spacewalk-proxies
+- hosts: spacewalk-proxy
   sudo: yes
   pre_tasks:
     - hostname: name=spacewalk-proxy
