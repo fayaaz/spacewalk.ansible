@@ -13,15 +13,8 @@
 
 - name: Install all packages for client
   yum:
-    name: "{{item}}"
+    name: ['rhn-client-tools', 'rhn-check', 'rhn-setup', 'rhnsd', 'm2crypto', 'yum-rhn-plugin']
     state: present
-  with_items:
-   - rhn-client-tools
-   - rhn-check
-   - rhn-setup
-   - rhnsd
-   - m2crypto
-   - yum-rhn-plugin
   when: ansible_distribution == "CentOS"
 
 - name: Install package for Ubuntu
