@@ -24,12 +24,12 @@ sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master
 
 To install both ansible and the spacewalk proxy:
 ```
-sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init-server.sh)
+sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init-proxy.sh)
 ```
 
 To install both ansible and the spacewalk client:
 ```
-sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init-server.sh)
+sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init-client.sh)
 ```
 
 Install a full Spacewalk server on CentOS 7 and also adds customizations:
