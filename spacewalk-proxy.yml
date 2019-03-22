@@ -4,7 +4,7 @@
   pre_tasks:
     - hostname: name=spacewalk-proxy
   roles:
-    - iptables
+    - role: iptables
       firewall_allowed_tcp_ports:
       - 22
       - 80
