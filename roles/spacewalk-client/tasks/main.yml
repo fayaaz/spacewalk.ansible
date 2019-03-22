@@ -28,7 +28,7 @@
 
 - name: Install Spacewalk CA certificate from server
   yum:
-    name: "http://{{ spacewalk_host }}/pub/rhn-org-trusted-ssl-cert-1.0-1.noarch.rpm"
+    name: "http://{{ spacewalk_hostname }}/pub/rhn-org-trusted-ssl-cert-1.0-1.noarch.rpm"
     state: present
   when: ansible_distribution == "CentOS"
 
