@@ -1,10 +1,13 @@
 ---
 spacewalk_admin_email: root@localhost
-spacewalk_ssl_org: Spacewalk Org
-spacewalk_ssl_org_unit: Spacewalk
-spacewalk_ssl_set_city: My City
-spacewalk_ssl_set_state: My State
-spacewalk_ssl_set_country: GB
+spacewalk_admin_password: admin
+spacewalk_admin_firstname: John
+spacewalk_admin_lastname: Do
+spacewalk_ssl_org: Spacewalk
+spacewalk_ssl_org_unit: SysAdmin
+spacewalk_ssl_set_city: Amsterdam
+spacewalk_ssl_set_state: Noord-Holland
+spacewalk_ssl_set_country: NL
 spacewalk_ssl_password: spacewalk
 spacewalk_ssl_set_email: root@localhost
 spacewalk_ssl_config_sslvhost: Y
@@ -15,7 +18,6 @@ spacewalk_db_password: spacepw
 spacewalk_db_host: localhost
 spacewalk_db_port: 5432
 spacewalk_enable_tftp: Y
-spacewalk_admin_password: test123
 spacewalk_scripts_dir: /opt/spacewalk-scripts/
 
 spacewalk_repo_info:
