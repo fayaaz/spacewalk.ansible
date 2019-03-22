@@ -18,7 +18,7 @@ Hardware / Virtual sizing advisement:
 
 For the lazy people: one command to install both ansible and run the spacewalk server installation playbook (requires you to be root):
 ```
-sh <(curl -s https://raw.githubusercontent.com/rhessing/spacewalk.ansible/master/init.sh)
+sh <(curl -s https://raw.githubusercontent.com/fayaaz/spacewalk.ansible/master/init.sh)
 ```
 
 
