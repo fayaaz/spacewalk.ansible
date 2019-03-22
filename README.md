@@ -8,7 +8,7 @@ Changes:
 - To enable a fully automated installation the password question has been removed.
 - Default admin password is admin
 - Default company name is Spacewalk
-- The default information can be changed in this file: 
+- The default information can be changed in this file: ./roles/spacewalk-customisations/defaults/main.yml
 - Due to this ansible issue: https://github.com/ansible/ansible/issues/47210 the installation for spacewalk-postgresql does not use the yum module, due to a bug in the module they playbook will fail. Should be fixed when Ansible 2.8 is released.
 - Added support for Ubuntu Bionic
 
