@@ -9,14 +9,12 @@ Changes:
 - Default admin password is admin
 - Default company name is Spacewalk
 - The default information can be changed in this file: ./roles/spacewalk-customisations/defaults/main.yml
-- Due to this ansible issue: https://github.com/ansible/ansible/issues/47210 the installation for spacewalk-postgresql does not use the yum module, due to a bug in the module they playbook will fail. Should be fixed when Ansible 2.8 is released.
 - Added support for Ubuntu Bionic
 
 Hardware / Virtual sizing advisement:
 - 1 CPU, 4GB of ram minimum, 64GB of disk 
 
-Todo:
-- Add a lazy people script for: SpaceWalk proxy and client
+
 
 For the lazy people: one command to install both ansible and run the spacewalk server installation playbook (requires you to be root):
 ```
@@ -36,8 +34,8 @@ Thanks to geerlingguy's iptables role, which is included here to configure the f
 
 #### To do:
 
-- Add Ubuntu support to client role (16.04 now working and tested)
-- Look at also adding Debian Jessie/Wheezy
+- Check Ubuntu support to client role on versions 12.04, 14.04, 16.04 and 18.04
+- Add a lazy people script for: SpaceWalk proxy and client
 
 What my inventory (/etc/ansible/hosts) looks like:
 
