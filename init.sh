@@ -74,7 +74,7 @@ if [ ! "$(which ansible-playbook)" ]; then
     yum -y install python-devel MySQL-python sshpass libffi-devel openssl-devel && pip install pyrax pysphere boto passlib dnspython
 
     # Install Ansible module dependencies
-    yum -y install bzip2 file findutils git gzip hg svn sudo tar which unzip xz zip libselinux-python python-urllib3
+    yum -y install bzip2 file findutils git gzip hg svn sudo tar which unzip xz zip libselinux-python
     [ -n "$(yum search procps-ng)" ] && yum -y install procps-ng || yum -y install procps
 
   elif [ -f /etc/debian_version ] || grep -qi ubuntu /etc/lsb-release || grep -qi ubuntu /etc/os-release; then
@@ -153,6 +153,10 @@ if [ ! "$(which ansible-playbook)" ]; then
       yum erase -y python-crypto
       yum install -y python-crypto python-paramiko
     fi
+    # Fix for urllib3 issue
+    pip uninstall -y urllib3
+    yum erase -y python-urllib3
+    yum install -y python-urllib3
   fi
 
 fi
