@@ -1,0 +1,6 @@
+---
+- hosts: spacewalk-proxies
+  sudo: yes
+  roles:
+    - spacewalk-client
+    - spacewalk-proxy

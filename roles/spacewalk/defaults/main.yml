@@ -1,5 +1,6 @@
 ---
 spacewalk_admin_email: root@localhost
+spacewalk_hostname: spacewalk-test
 spacewalk_ssl_org: Spacewalk Org
 spacewalk_ssl_org_unit: Spacewalk
 spacewalk_ssl_set_city: My City
