@@ -34,10 +34,18 @@
   ignore_errors: true
   with_items: "{{spacewalk_child_deb_repo_info}}"
 
+- name: Associate deb repos to channels
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_addrepo {{item.label}} {{item.repo}}
+  with_items: "{{ spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info) }}"
+  
 - name: Associate child channels with activationkeys
   command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- activationkey_addchildchannels {{item.activationkey}}  {{item.label}}
   ignore_errors: true
   with_items: "{{spacewalk_child_deb_repo_info}}"
+
+- name: Set sync repo schedules
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_setsyncschedule {{item.label}} 0 30 3 ? * *
+  with_items: "{{ spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info) }}"
 
 - name: Get the trusted SSL certs
   get_url: url=http://localhost/pub/RHN-ORG-TRUSTED-SSL-CERT dest=/usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
