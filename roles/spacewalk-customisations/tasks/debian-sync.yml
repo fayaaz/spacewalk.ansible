@@ -24,6 +24,11 @@
   ignore_errors: true
   with_items: "{{spacewalk_child_deb_repo_info}}"
 
+- name: Add Repositories
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- repo_create -n {{item.name}} -u {{item.repo_url}}
+  ignore_errors: true
+  with_items: "{{ spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info) }}"
+
 - name: Add deb activation keys
   command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- activationkey_create -n {{item.label}} -b {{item.label}} -d {{item.name}}
   ignore_errors: true
@@ -43,7 +48,7 @@
   ignore_errors: true
   with_items: "{{spacewalk_child_deb_repo_info}}"
 
-- name: Set sync repo schedules
+- name: Set sync deb repo schedules
   command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_setsyncschedule {{item.label}} 0 30 3 ? * *
   with_items: "{{ spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info) }}"
 
