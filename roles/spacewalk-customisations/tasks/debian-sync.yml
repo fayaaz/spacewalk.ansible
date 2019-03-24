@@ -25,7 +25,7 @@
   with_items: "{{spacewalk_child_deb_repo_info}}"
 
 - name: Add Repositories
-  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- repo_create -n {{item.name}} -u {{item.repo_url}}
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- repo_create -n {{item.name}} -u {{item.repo_url}} -t deb
   ignore_errors: true
   with_items: "{{ spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info) }}"
 
