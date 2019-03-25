@@ -17,6 +17,10 @@ spacewalk_db_password: spacepw
 spacewalk_db_host: localhost
 spacewalk_db_port: 5432
 spacewalk_enable_tftp: Y
+spacewalk_proxy: 
+spacewalk_proxy_username: 
+spacewalk_proxy_password: 
+
 
 # Path to the environment file
 environment_file: /etc/environment
