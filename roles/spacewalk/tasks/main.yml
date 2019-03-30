@@ -35,8 +35,8 @@
  
   - name: Copy rpm files to server
     copy: 
-      src: {{ item.src }} 
-      dest: {{ item.dest }}
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
     with_items:
       - { src: '{{ role_path }}/files/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', dest: '/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm' }
       - { src: '{{ role_path }}/files/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm', dest: '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm' }
