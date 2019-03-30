@@ -32,11 +32,24 @@
     yum: 
       name: https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
       state: present
+ 
+  - name: Copy rpm files to server
+    copy: 
+      src: {{ item.src }} 
+      dest: {{ item.dest }}
+    with_items:
+      - { src: '{{ role_path }}/files/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', dest: '/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm' }
+      - { src: '{{ role_path }}/files/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm', dest: '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm' }
     
   - name: Install Spacewalk-setup-postgresql
     yum: 
-      name: ['spacewalk-setup-postgresql', 'osa-dispatcher']
+      name: ['spacewalk-setup-postgresql', 'osa-dispatcher', '/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm']
       state: present
+
+  - name: remove local rpm files
+    file:
+      path: ['/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm']
+      state: absent
 
   - name: Ensure hostname in /etc/hosts
     lineinfile: 
