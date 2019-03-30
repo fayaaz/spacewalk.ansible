@@ -16,7 +16,7 @@
 
 - name: Install all packages for CentOS client
   yum:
-    name: ['rhn-client-tools', 'rhn-check', 'rhn-setup', 'rhnsd', 'm2crypto', 'yum-rhn-plugin']
+    name: ['rhn-client-tools', 'rhn-check', 'rhn-setup', 'rhnsd', 'm2crypto', 'yum-rhn-plugin', 'osad']
     state: present
   when: ansible_distribution == "CentOS"
 
@@ -50,7 +50,7 @@
 
 - name: Install package for Ubuntu
   apt:       
-    name: ['rhn-client-tools', 'rhn-check', 'rhn-setup', 'rhnsd', 'apt-transport-spacewalk', 'rhncfg', 'rhncfg-actions']
+    name: ['rhn-client-tools', 'rhn-check', 'rhn-setup', 'rhnsd', 'apt-transport-spacewalk', 'rhncfg', 'rhncfg-actions', 'pyjabber', 'osad']
     state: present
   when: ansible_distribution == "Ubuntu"
 
@@ -59,6 +59,19 @@
     name: "http://{{ spacewalk_hostname }}/pub/rhn-org-trusted-ssl-cert-1.0-1.noarch.rpm"
     state: present
   when: ansible_distribution == "CentOS"
+
+- name: Create rhn directory
+  file:
+    path: /usr/share/rhn
+    state: directory
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Spacewalk CA certificate from server
+  get_url:
+    url: http://{{ spacewalk_hostname }}/pub/RHN-ORG-TRUSTED-SSL-CERT
+    dest: /usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
+    mode: 644
+  when: ansible_distribution == "Ubuntu"
 
 - name: register with spacewalk server
   command: rhnreg_ks --serverUrl=http://{{ spacewalk_hostname }}/XMLRPC --activationkey=1-centos-{{ansible_distribution_major_version}}-epel
@@ -69,3 +82,19 @@
   command: rhnreg_ks --serverUrl=http://{{ spacewalk_hostname }}/XMLRPC --activationkey=1-ubuntu-{{ansible_distribution_version.split('.')|join('')}}-security
   when: ansible_distribution == "Ubuntu"
   ignore_errors: true
+  
+- name: Start OSAD client
+  systemd:
+    name: osad
+    state: started
+    enabled: yes
+    masked: no
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "7" or ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == "18"
+  
+- name: Start OSAD client
+  service:
+    name: osad
+    state: started
+    enabled: yes
+    masked: no
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6" or ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == "16"
