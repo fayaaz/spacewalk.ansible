@@ -24,19 +24,30 @@
       - { regexp: '^LANG=', line: 'LANG="en_US.utf8"' }
 
   - name: Enable EPEL
-    yum: name=epel-release
+    yum: 
+      name: epel-release
+      state: present
 
   - name: Install Spacewalk repository
-    yum: name=https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
+    yum: 
+      name: https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
+      state: present
     
   - name: Install Spacewalk-setup-postgresql
-    yum: name=spacewalk-setup-postgresql state=present
+    yum: 
+      name: ['spacewalk-setup-postgresql', 'osa-dispatcher']
+      state: present
 
   - name: Ensure hostname in /etc/hosts
-    lineinfile: dest=/etc/hosts regexp=^{{ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])}} line="{{ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])}} {{ spacewalk_hostname }}"
+    lineinfile: 
+      dest: /etc/hosts 
+      regexp: ^{{ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])}}
+      line: "{{ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])}} {{ spacewalk_hostname }}"
 
   - name: Install spacewalk-postgresql
-    yum: name=spacewalk-postgresql state=present
+    yum: 
+      name: spacewalk-postgresql 
+      state: present
 
   - name: initialize DB - bug 1524221
     command: postgresql-setup initdb
@@ -44,11 +55,26 @@
       creates: "/var/lib/pgsql/data/pg_ident.conf"
 
   - name: Copy answers file for spacewalk setip
-    template: src=answers.j2 dest=/var/tmp/answers owner=root group=root mode=0600
+    template: 
+      src: answers.j2 
+      dest: /var/tmp/answers 
+      owner: root 
+      group: root 
+      mode: 0600
 
   - name: Install spacewalk
     command: spacewalk-setup --answer-file=/var/tmp/answers
-             creates=/var/satellite
+    args:
+      creates: /var/satellite
+  
+- name: Start OSAD dispatcher and Jabberd
+  systemd:
+    name: ['osad-dispatcher', 'jabberd']
+    state: started
+    enabled: yes
+    masked: no
+
+  
   #- template: src=iptables.j2 dest=/etc/sysconfig/iptables owner=root group=root mode=0600
   #  notify: restart_iptables
 
