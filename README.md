@@ -1,6 +1,8 @@
 Spacewalk playbooks and roles
 ==============
 
+License: when using this playbook you are required ro have read and accepted the oracle license agreement due to the usage of an oracle client RPM for the osa-dispatcher: https://github.com/rhessing/spacewalk.ansible/blob/master/roles/spacewalk/files/LICENSE
+
 Changes:
 - Updated to Spacewalk version 2.9
 - Updated the iptables role
