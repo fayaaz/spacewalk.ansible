@@ -41,16 +41,10 @@
       - { src: '{{ role_path }}/files/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', dest: '/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm' }
       - { src: '{{ role_path }}/files/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm', dest: '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm' }
     
-#  - name: Install Spacewalk-setup-postgresql
-#    yum: 
-#      name: ['spacewalk-setup-postgresql', 'osa-dispatcher', '/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm']
-#      state: present
-
   - name: Install Spacewalk-setup-postgresql
     yum: 
-      name: ['spacewalk-setup-postgresql', 'osa-dispatcher', 'oracle-instantclient11.2-basic']
+      name: ['spacewalk-setup-postgresql', 'osa-dispatcher', '/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm']
       state: present
-
 
   - name: remove local rpm files
     file:
