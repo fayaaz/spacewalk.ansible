@@ -87,7 +87,7 @@
   
   - name: Start OSAD dispatcher and Jabberd
     systemd:
-      name: ['osad-dispatcher', 'jabberd']
+      name: ['osa-dispatcher', 'jabberd']
       state: started
       enabled: yes
       masked: no
