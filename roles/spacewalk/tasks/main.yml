@@ -33,10 +33,10 @@
       name: https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
       state: present
  
- - name: Install Spacewalk repository
-   yum: 
-    name: https://copr-be.cloud.fedoraproject.org/results/%40spacewalkproject/spacewalk-2.9-client/epel-{{ansible_distribution_major_version}}-x86_64/00830558-spacewalk-repo/spacewalk-client-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
-    state: present
+  - name: Install Spacewalk Client repository
+    yum: 
+      name: https://copr-be.cloud.fedoraproject.org/results/%40spacewalkproject/spacewalk-2.9-client/epel-{{ansible_distribution_major_version}}-x86_64/00830558-spacewalk-repo/spacewalk-client-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
+      state: present
  
   - name: Copy rpm files to server
     copy: 
