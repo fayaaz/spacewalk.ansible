@@ -84,13 +84,6 @@
     command: spacewalk-setup --answer-file=/var/tmp/answers
     args:
       creates: /var/satellite
-  
-  - name: Start OSAD dispatcher and Jabberd
-    systemd:
-      name: ['osa-dispatcher', 'jabberd']
-      state: started
-      enabled: yes
-      masked: no
 
   
   #- template: src=iptables.j2 dest=/etc/sysconfig/iptables owner=root group=root mode=0600
