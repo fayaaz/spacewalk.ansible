@@ -14,7 +14,7 @@ Changes:
 - Added support for Ubuntu Bionic
 
 Hardware / Virtual sizing advisement:
-- 1 CPU, 4GB of ram minimum, 64GB of disk 
+- 1 CPU, 4GB of ram minimum, 300GB of disk 
 
 
 
@@ -75,5 +75,34 @@ The prompt will ask for the password to continue.
 ansible-playbook spacewalk-clients.yml
 ```
 
-Extra credits:
-Blog post: [Running Ubuntu Servers with Spacewalk](http://www.devops-blog.net/spacewalk/registering-ubuntu-and-debian-servers-with-spacewalk)
+## Basic trouble shooting
+
+### spacewalk-repo-sync error due to 100% disk usage
+When the system has not been sized properly you will run into the error below:
+```
+rhn]# spacewalk-repo-sync --parent-channel ubuntu-1804 -t deb --verbose
+06:55:46 ======================================
+06:55:46 | Channel: Ubuntu_1804_security
+06:55:46 ======================================
+06:55:46 Sync of channel started.
+Traceback (most recent call last):
+   File "/usr/bin/spacewalk-repo-sync", line 257, in <module>
+     sys.exit(abs(main() or 0))
+   File "/usr/bin/spacewalk-repo-sync", line 237, in main
+     force_all_errata=options.force_all_errata)
+   File "/usr/lib/python2.7/site-packages/spacewalk/satellite_tools/reposync.py", line 396, in __init__
+     self.checksum_cache = rhnCache.get(checksum_cache_filename)
+   File "/usr/lib/python2.7/site-packages/spacewalk/common/rhnCache.py", line 76, in get
+     return cache.get(name, modified)
+   File "/usr/lib/python2.7/site-packages/spacewalk/common/rhnCache.py", line 403, in get
+     return self.cache.get(name, modified)
+   File "/usr/lib/python2.7/site-packages/spacewalk/common/rhnCache.py", line 374, in get
+     return cPickle.loads(pickled)
+EOFError
+```
+
+The resolution is to increase the disk size and delete this file before rerunning the spacewalk-repo-sync command again:
+/var/cache/rhn/reposync/checksum_cache
+
+### Client apt/yum returning errors
+Please double check if the spacewalk-repo-sync command finishes without errors
