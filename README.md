@@ -13,8 +13,8 @@ Changes:
 - The default information can be changed in this file: ./roles/spacewalk-customisations/defaults/main.yml
 - Added support for Ubuntu Bionic
 
-Hardware / Virtual sizing advisement:
-- 1 CPU, 4GB of ram minimum, 300GB of disk 
+Spacewalk Server Hardware / Virtual sizing advisement:
+- 2 CPU, 4GB of ram minimum (8GB+ recommended), 300GB of disk 
 
 
 
