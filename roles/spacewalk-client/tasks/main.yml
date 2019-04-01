@@ -50,7 +50,7 @@
 
 - name: Install package for Ubuntu
   apt:       
-    name: ['rhn-client-tools', 'rhn-check', 'rhn-setup', 'rhnsd', 'apt-transport-spacewalk', 'rhncfg', 'rhncfg-actions', 'pyjabber', 'osad']
+    name: ['rhn-client-tools', 'rhn-check', 'rhn-setup', 'rhnsd', 'apt-transport-spacewalk', 'rhncfg', 'rhncfg-actions']
     state: present
   when: ansible_distribution == "Ubuntu"
 
