@@ -1,10 +1,13 @@
 ---
 spacewalk_admin_email: root@localhost
-spacewalk_ssl_org: Spacewalk Org
-spacewalk_ssl_org_unit: Spacewalk
-spacewalk_ssl_set_city: My City
-spacewalk_ssl_set_state: My State
-spacewalk_ssl_set_country: GB
+spacewalk_admin_password: admin
+spacewalk_admin_firstname: John
+spacewalk_admin_lastname: Do
+spacewalk_ssl_org: Spacewalk
+spacewalk_ssl_org_unit: SysAdmin
+spacewalk_ssl_set_city: Amsterdam
+spacewalk_ssl_set_state: Noord-Holland
+spacewalk_ssl_set_country: NL
 spacewalk_ssl_password: spacewalk
 spacewalk_ssl_set_email: root@localhost
 spacewalk_ssl_config_sslvhost: Y
@@ -15,7 +18,6 @@ spacewalk_db_password: spacepw
 spacewalk_db_host: localhost
 spacewalk_db_port: 5432
 spacewalk_enable_tftp: Y
-spacewalk_admin_password: test123
 spacewalk_scripts_dir: /opt/spacewalk-scripts/
 
 spacewalk_repo_info:
@@ -23,29 +25,25 @@ spacewalk_repo_info:
   - {name: 'CentOS_7', label: 'centos-7', repo: 'CentOS_7', repo_url: 'http://mirror.ox.ac.uk/sites/mirror.centos.org/7/os/x86_64/', arch: 'x86_64', checksum: 'sha256'}
 
 spacewalk_child_repo_info:
-  - {
-      name: 'CentOS_7_epel',
-      label: 'centos-7-epel',
-      parent: 'centos-7',
-      repo: 'CentOS_7_epel',
-      activationkey: '1-centos-7-epel',
-      repo_url: 'http://anorien.csc.warwick.ac.uk/mirrors/epel/7/x86_64/',
-      arch: 'x86_64',
-      checksum:
-      'sha256'
-    }
   - {name: 'CentOS_6_epel', label: 'centos-6-epel', parent: 'centos-6', repo: 'CentOS_6_epel', activationkey: '1-centos-6-epel', repo_url: 'http://anorien.csc.warwick.ac.uk/mirrors/epel/6/x86_64/', arch: 'x86_64', checksum: 'sha256'}
+  - {name: 'CentOS_7_epel', label: 'centos-7-epel', parent: 'centos-7', repo: 'CentOS_7_epel', activationkey: '1-centos-7-epel', repo_url: 'http://anorien.csc.warwick.ac.uk/mirrors/epel/7/x86_64/', arch: 'x86_64', checksum: 'sha256'}
   - {name: 'CentOS_6_updates', label: 'centos-6-updates', parent: 'centos-6', repo: 'CentOS_6_updates', activationkey: '1-centos-6-epel', repo_url: 'http://mirror.centos.org/centos/6/updates/x86_64/', arch: 'x86_64', checksum: 'sha256'}
   - {name: 'CentOS_7_updates', label: 'centos-7-updates', parent: 'centos-7', repo: 'CentOS_7_updates', activationkey: '1-centos-7-epel', repo_url: 'http://mirror.centos.org/centos/7/updates/x86_64/', arch: 'x86_64', checksum: 'sha256'}
   - {name: 'CentOS_6_extras', label: 'centos-6-extras', parent: 'centos-6', repo: 'CentOS_6_extras', activationkey: '1-centos-6-epel', repo_url: 'http://mirror.centos.org/centos/6/extras/x86_64/', arch: 'x86_64', checksum: 'sha256'}
   - {name: 'CentOS_7_extras', label: 'centos-7-extras', parent: 'centos-7', repo: 'CentOS_7_extras', activationkey: '1-centos-7-epel', repo_url: 'http://mirror.centos.org/centos/7/extras/x86_64/', arch: 'x86_64', checksum: 'sha256'}
 
 spacewalk_deb_repo_info:
-  - {name: 'Ubuntu_Precise_12_04', label: 'ubuntu-1204', repo: 'Ubuntu1204', activationkey: '1-ubuntu-1204', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/precise/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
-  - {name: 'Ubuntu_Trusty_14_04', label: 'ubuntu-1404', repo: 'Ubuntu1404', activationkey: '1-ubuntu-1404', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/trusty/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
-  - {name: 'Ubuntu_Xenial_16_04', label: 'ubuntu-1604', repo: 'Ubuntu1604', activationkey: '1-ubuntu-1604', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/xenial/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1204', label: 'ubuntu-1204', repo: 'Ubuntu_1204', activationkey: '1-ubuntu-1204', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/precise/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1404', label: 'ubuntu-1404', repo: 'Ubuntu_1404', activationkey: '1-ubuntu-1404', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/trusty/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1604', label: 'ubuntu-1604', repo: 'Ubuntu_1604', activationkey: '1-ubuntu-1604', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/xenial/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1804', label: 'ubuntu-1804', repo: 'Ubuntu_1804', activationkey: '1-ubuntu-1804', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/bionic/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
 
 spacewalk_child_deb_repo_info:
-  - {name: 'Ubuntu_Precise_12_04_security', label: 'ubuntu-1204-security', parent: 'ubuntu-1204', activationkey: '1-ubuntu-1204-security', repo: 'Ubuntu1204_security', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/precise-security/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
-  - {name: 'Ubuntu_Trusty_14_04_security', label: 'ubuntu-1404-security', parent: 'ubuntu-1404', activationkey: '1-ubuntu-1404-security', repo: 'Ubuntu1404_security', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/trusty-security/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
-  - {name: 'Ubuntu_Xenial_16_04_security', label: 'ubuntu-1604-security', parent: 'ubuntu-1604', activationkey: '1-ubuntu-1604-security', repo: 'Ubuntu1604_security', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/xenial-security/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1204_security', label: 'ubuntu-1204-security', parent: 'ubuntu-1204', activationkey: '1-ubuntu-1204-security', repo: 'Ubuntu_1204_security', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/precise-security/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1204_updates', label: 'ubuntu-1204-updates', parent: 'ubuntu-1204', activationkey: '1-ubuntu-1204-updates', repo: 'Ubuntu_1204_updates', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/precise-updates/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1404_security', label: 'ubuntu-1404-security', parent: 'ubuntu-1404', activationkey: '1-ubuntu-1404-security', repo: 'Ubuntu_1404_security', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/trusty-security/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1404_updates', label: 'ubuntu-1404-updates', parent: 'ubuntu-1404', activationkey: '1-ubuntu-1404-updates', repo: 'Ubuntu_1404_updates', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/trusty-updates/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1604_security', label: 'ubuntu-1604-security', parent: 'ubuntu-1604', activationkey: '1-ubuntu-1604-security', repo: 'Ubuntu_1604_security', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/xenial-security/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1604_updates', label: 'ubuntu-1604-updates', parent: 'ubuntu-1604', activationkey: '1-ubuntu-1604-updates', repo: 'Ubuntu_1604_updates', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/xenial-updates/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1804_security', label: 'ubuntu-1804-security', parent: 'ubuntu-1804', activationkey: '1-ubuntu-1804-security', repo: 'Ubuntu_1804_security', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/bionic-security/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}
+  - {name: 'Ubuntu_1804_updates', label: 'ubuntu-1804-updates', parent: 'ubuntu-1804', activationkey: '1-ubuntu-1804-updates', repo: 'Ubuntu_1804_updates', repo_url: 'http://de.archive.ubuntu.com/ubuntu/dists/bionic-updates/main/binary-amd64/', arch: 'amd64-deb', checksum: 'sha256'}

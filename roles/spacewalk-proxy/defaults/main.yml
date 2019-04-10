@@ -1,0 +1,29 @@
+---
+spacewalk_admin_email: root@localhost
+spacewalk_hostname: spacewalk-test
+spacewalk_ip: 192.168.84.115
+
+# Proxy settings
+# TRACEBACK_EMAIL; see spacewalk_admin_email
+# RHN_PARENT; see spacewalk_host
+# SSL_EMAIL; see spacewalk_admin_email
+version: 2.9
+use_ssl: Y
+ca_chain: /usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
+ssl_cname_ask:
+ssl_org: Spacewalk
+ssl_orgunit: proxy1.example.com
+ssl_common: proxy1.example.com
+ssl_city: Amsterdam
+ssl_state: Noord Holland 
+ssl_country: NL
+ssl_password: spacewalk
+populate_config_channel: Y
+install_monitoring: Y
+enable_scout: N
+start_services: Y
+http_proxy:
+http_username:
+http_password:
+user: admin
+password: admin

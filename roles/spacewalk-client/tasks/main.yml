@@ -1,6 +1,9 @@
 ---
-- name: install spacewalk repository from URL
-  yum: name=http://yum.spacewalkproject.org/2.4-client/RHEL/{{ansible_distribution_major_version}}/x86_64/spacewalk-client-repo-2.4-3.el{{ansible_distribution_major_version}}.noarch.rpm state=present
+- name: Ensure spacewalk hostname in /etc/hosts
+  lineinfile: dest=/etc/hosts regexp=^{{ spacewalk_ip }} line="{{ spacewalk_ip }} {{ spacewalk_hostname }}"
+
+- name: install CentOS spacewalk repository from URL
+  yum: name=https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-client-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm state=present
   when: ansible_distribution == "CentOS"
 
 - name: install extra packages for enterprise linux (EPEL) from URL (CentOS 6)
@@ -11,37 +14,87 @@
   yum: name=epel-release state=present
   when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
 
-- name: Install all packages for client
+- name: Install all packages for CentOS client
   yum:
-    name: "{{item}}"
+    name: ['rhn-client-tools', 'rhn-check', 'rhn-setup', 'rhnsd', 'm2crypto', 'yum-rhn-plugin', 'osad']
     state: present
-  with_items:
-   - rhn-client-tools
-   - rhn-check
-   - rhn-setup
-   - rhnsd
-   - m2crypto
-   - yum-rhn-plugin
   when: ansible_distribution == "CentOS"
 
+- name: Add Ubuntu 16.04 Spacewalk Client repo key (special thanks to OpenSuse)
+  apt_key: 
+    url: http://download.opensuse.org/repositories/systemsmanagement:/spacewalk:/2.9:/debclients/xUbuntu_16.04/Release.key 
+    state: present 
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16"
+  
+- name: Add Ubuntu 16.04 Spacewalk Client repo (special thanks to OpenSuse)
+  apt_repository: 
+    repo: 'deb http://download.opensuse.org/repositories/systemsmanagement:/spacewalk:/2.9:/debclients/xUbuntu_16.04/ /' 
+    state: present 
+    filename: spacewalk2.9-debclients.list
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16"
+
+- name: Add Ubuntu 18.04 Spacewalk Client repo key (special thanks to OpenSuse)
+  apt_key: 
+    url: http://download.opensuse.org/repositories/systemsmanagement:/spacewalk:/2.9:/debclients/xUbuntu_18.04/Release.key 
+    state: present 
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18"
+  
+- name: Add Ubuntu 18.04 Spacewalk Client repo (special thanks to OpenSuse)
+  apt_repository: 
+    repo: 'deb http://download.opensuse.org/repositories/systemsmanagement:/spacewalk:/2.9:/debclients/xUbuntu_18.04/ /' 
+    state: present 
+    filename: spacewalk2.9-debclients.list
+    update_cache: yes
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18"
+
 - name: Install package for Ubuntu
-  apt:
-    name: apt-transport-spacewalk
+  apt:       
+    name: ['rhn-client-tools', 'rhn-check', 'rhn-setup', 'rhnsd', 'apt-transport-spacewalk', 'rhncfg', 'rhncfg-actions']
     state: present
   when: ansible_distribution == "Ubuntu"
 
 - name: Install Spacewalk CA certificate from server
   yum:
-    name: "http://{{ spacewalk_host }}/pub/rhn-org-trusted-ssl-cert-1.0-1.noarch.rpm"
+    name: "http://{{ spacewalk_hostname }}/pub/rhn-org-trusted-ssl-cert-1.0-1.noarch.rpm"
     state: present
   when: ansible_distribution == "CentOS"
 
+- name: Create rhn directory
+  file:
+    path: /usr/share/rhn
+    state: directory
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install Spacewalk CA certificate from server
+  get_url:
+    url: http://{{ spacewalk_hostname }}/pub/RHN-ORG-TRUSTED-SSL-CERT
+    dest: /usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
+    mode: 644
+  when: ansible_distribution == "Ubuntu"
+
 - name: register with spacewalk server
-  command: rhnreg_ks --serverUrl=http://{{ spacewalk_host }}/XMLRPC --activationkey=1-centos-{{ansible_distribution_major_version}}-epel
+  command: rhnreg_ks --serverUrl=http://{{ spacewalk_hostname }}/XMLRPC --activationkey=1-centos-{{ansible_distribution_major_version}}-epel
   when: ansible_distribution == "CentOS"
   ignore_errors: true
 
 - name: register with spacewalk server
-  command: rhnreg_ks --serverUrl=http://{{ spacewalk_host }}/XMLRPC --activationkey=1-ubuntu-{{ansible_distribution_version.split('.')|join('')}}-security
+  command: rhnreg_ks --serverUrl=http://{{ spacewalk_hostname }}/XMLRPC --activationkey=1-ubuntu-{{ansible_distribution_version.split('.')|join('')}}-security
   when: ansible_distribution == "Ubuntu"
   ignore_errors: true
+  
+- name: Start OSAD client
+  systemd:
+    name: osad
+    state: started
+    enabled: yes
+    masked: no
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == "7" or ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == "18"
+  
+- name: Start OSAD client
+  service:
+    name: osad
+    state: started
+    enabled: yes
+    masked: no
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6" or ansible_distribution == 'Ubuntu' and ansible_distribution_major_version == "16"

@@ -1,18 +1,18 @@
 ---
-- name: Install pip
-  yum: name=python-pip state=present
+#- name: Install pip
+#  yum: name=python-pip state=present
 
-- name: Install/update python-debian
-  pip: name=python-debian state=latest
+#- name: Install/update python-debian
+#  pip: name=python-debian state=latest
 
-- name: Install git
-  yum: name=git state=present
+#- name: Install git
+#  yum: name=git state=present
 
-- name: get sync scripts
-  git: repo=https://github.com/philicious/spacewalk-scripts.git dest={{spacewalk_scripts_dir}}
+#- name: get sync scripts
+#  git: repo=https://github.com/philicious/spacewalk-scripts.git dest={{spacewalk_scripts_dir}}
 
-- name: Patch the python debian library
-  lineinfile: dest=/usr/lib/python2.7/site-packages/debian/debfile.py regexp='^PART_EXTS =' line="PART_EXTS = ['gz', 'bz2', 'xz', 'lzma']"
+#- name: Patch the python debian library
+#  lineinfile: dest=/usr/lib/python2.7/site-packages/debian/debfile.py regexp='^PART_EXTS =' line="PART_EXTS = ['gz', 'bz2', 'xz', 'lzma']"
 
 - name: Add deb base channels
   command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_create -n {{item.name}} -l {{item.label}} -a {{item.arch}} -c sha512
@@ -24,6 +24,11 @@
   ignore_errors: true
   with_items: "{{spacewalk_child_deb_repo_info}}"
 
+- name: Add Repositories
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- repo_create -n {{item.name}} -u {{item.repo_url}} -t deb
+  ignore_errors: true
+  with_items: "{{ spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info) }}"
+
 - name: Add deb activation keys
   command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- activationkey_create -n {{item.label}} -b {{item.label}} -d {{item.name}}
   ignore_errors: true
@@ -34,14 +39,22 @@
   ignore_errors: true
   with_items: "{{spacewalk_child_deb_repo_info}}"
 
+- name: Associate deb repos to channels
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_addrepo {{item.label}} {{item.repo}}
+  with_items: "{{ spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info) }}"
+  
 - name: Associate child channels with activationkeys
   command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- activationkey_addchildchannels {{item.activationkey}}  {{item.label}}
   ignore_errors: true
   with_items: "{{spacewalk_child_deb_repo_info}}"
 
+- name: Set sync deb repo schedules
+  command: spacecmd --user=admin --password={{spacewalk_admin_password}} -- softwarechannel_setsyncschedule {{item.label}} 0 30 3 ? * *
+  with_items: "{{ spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info) }}"
+
 - name: Get the trusted SSL certs
   get_url: url=http://localhost/pub/RHN-ORG-TRUSTED-SSL-CERT dest=/usr/share/rhn/RHN-ORG-TRUSTED-SSL-CERT
 
-- name: Add cron jobs for synchronizing Debian repos
-  cron: name="{{item.name}} repo sync" minute="0" hour="7,19" job="{{spacewalk_scripts_dir}}debianSync.py --username=admin --password={{spacewalk_admin_password}} --channel {{item.label}} --url {{item.repo_url}}"
-  with_items: "{{spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info)}}"
+#- name: Add cron jobs for synchronizing Debian repos
+#  cron: name="{{item.name}} repo sync" minute="0" hour="7,19" job="{{spacewalk_scripts_dir}}debianSync.py --username=admin --password={{spacewalk_admin_password}} --channel {{item.label}} --url {{item.repo_url}}"
+#  with_items: "{{spacewalk_deb_repo_info | union(spacewalk_child_deb_repo_info)}}"

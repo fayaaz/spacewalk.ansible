@@ -1,0 +1,34 @@
+#!/bin/bash
+
+########################################
+# create the first spacewalk account
+
+# satwho requires it
+LANG=C
+
+tempfile=$(mktemp /tmp/$(basename $0).XXXXXX)
+
+trap cleanup EXIT
+
+cleanup() {
+  exitcode=$?
+  test -f "$tempfile" && rm -f "$tempfile"
+  exit $exitcode
+}
+
+if [ "$(satwho | wc -l)" = "0" ]; then
+  curl --silent https://spacewalk-test/rhn/newlogin/CreateFirstUser.do --insecure -D - >$tempfile
+
+  cookie=$(egrep -o 'JSESSIONID=[^ ]+' $tempfile)
+  csrf=$(egrep csrf_token $tempfile | egrep -o 'value=[^ ]+' | egrep -o '[0-9]+')
+
+  curl --noproxy '*' \
+    --cookie "$cookie" \
+    --insecure \
+    --data "login=admin&desiredpassword={{ spacewalk_admin_password }}&desiredpasswordConfirm={{ spacewalk_admin_password }}&firstNames={{ spacewalk_admin_firstname }}&lastName={{ spacewalk_admin_lastname }}&email={{ spacewalk_admin_email }}&prefix=Mr.&orgName={{ spacewalk_ssl_org }}&submitted=true&csrf_token=-$csrf" \
+    https://localhost/rhn/newlogin/CreateFirstUser.do
+
+  if [ "$(satwho | wc -l)" = "0" ]; then
+    echo "Error: user creation failed" >&2
+  fi
+fi

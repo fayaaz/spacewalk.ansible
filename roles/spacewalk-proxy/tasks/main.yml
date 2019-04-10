@@ -1,0 +1,20 @@
+---
+- name: Install Spacewalk main repository
+  yum: name=https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
+
+- name: Install all packages for spacewalk proxy
+  yum:
+    name: ['spacewalk-proxy-selinux', 'spacewalk-proxy-installer']
+    state: present
+
+- name: create ssl-build directory
+  file:
+    path: /root/ssl-build
+    state: directory
+
+- name: Copy answers file for spacewalk proxy setup
+  template: src=answers.j2 dest=/var/tmp/answers owner=root group=root mode=0600
+
+- name: configure proxy
+  command: configure-proxy.sh --answer-file=/var/tmp/answers
+           creates=/var/satellite

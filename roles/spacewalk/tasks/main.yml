@@ -24,41 +24,68 @@
       - { regexp: '^LANG=', line: 'LANG="en_US.utf8"' }
 
   - name: Enable EPEL
-    yum: name=epel-release
-
-  - name: Install jpackage repo
-    template: src=jpackage.j2 dest=/etc/yum.repos.d/jpackage-generic.repo
+    yum: 
+      name: epel-release
+      state: present
 
   - name: Install Spacewalk repository
-    yum: name=http://yum.spacewalkproject.org/2.4/RHEL/{{ansible_distribution_major_version}}/x86_64/spacewalk-repo-2.4-3.el{{ansible_distribution_major_version}}.noarch.rpm
-
+    yum: 
+      name: https://copr-be.cloud.fedoraproject.org/results/@spacewalkproject/spacewalk-2.9/epel-{{ansible_distribution_major_version}}-x86_64/00830557-spacewalk-repo/spacewalk-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
+      state: present
+ 
+  - name: Install Spacewalk Client repository
+    yum: 
+      name: https://copr-be.cloud.fedoraproject.org/results/%40spacewalkproject/spacewalk-2.9-client/epel-{{ansible_distribution_major_version}}-x86_64/00830558-spacewalk-repo/spacewalk-client-repo-2.9-4.el{{ansible_distribution_major_version}}.noarch.rpm
+      state: present
+ 
+  - name: Copy rpm files to server
+    copy: 
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    with_items:
+      - { src: '{{ role_path }}/files/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', dest: '/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm' }
+      - { src: '{{ role_path }}/files/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm', dest: '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm' }
+    
   - name: Install Spacewalk-setup-postgresql
-    yum: name=spacewalk-setup-postgresql state=present
+    yum: 
+      name: ['spacewalk-setup-postgresql', 'osa-dispatcher', '/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm']
+      state: present
+
+  - name: remove local rpm files
+    file:
+      path: ['/tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm', '/tmp/oracle-instantclient11.2-sqlplus-11.2.0.4.0-1.x86_64.rpm']
+      state: absent
 
   - name: Ensure hostname in /etc/hosts
-    lineinfile: dest=/etc/hosts regexp=^{{ansible_default_ipv4.address}} line="{{ansible_default_ipv4.address}} spacewalk-test"
+    lineinfile: 
+      dest: /etc/hosts 
+      regexp: ^{{ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])}}
+      line: "{{ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0])}} {{ spacewalk_hostname }}"
 
   - name: Install spacewalk-postgresql
-    yum: name=spacewalk-postgresql state=present
-    
+    yum: 
+      name: spacewalk-postgresql 
+      state: present
+
   - name: initialize DB - bug 1524221
     command: postgresql-setup initdb
-
-  - name: Install yum versionlock
-    yum: name=yum-plugin-versionlock state=present
-
-  - name: Downgrade c3p0 - bug 1442140
-    command: yum -y downgrade c3p0
-
-  - name: Versionlock c3p0 - bug 1442140
-    command: yum versionlock c3p0
+    args:
+      creates: "/var/lib/pgsql/data/pg_ident.conf"
 
   - name: Copy answers file for spacewalk setip
-    template: src=answers.j2 dest=/var/tmp/answers owner=root group=root mode=0600
+    template: 
+      src: answers.j2 
+      dest: /var/tmp/answers 
+      owner: root 
+      group: root 
+      mode: 0600
 
   - name: Install spacewalk
-    command: spacewalk-setup --disconnected --answer-file=/var/tmp/answers
-             creates=/var/satellite
+    command: spacewalk-setup --answer-file=/var/tmp/answers
+    args:
+      creates: /var/satellite
+
+  
   #- template: src=iptables.j2 dest=/etc/sysconfig/iptables owner=root group=root mode=0600
   #  notify: restart_iptables
 

@@ -1,5 +1,0 @@
----
-- hosts: spacewalk-clients
-  sudo: yes
-  roles:
-    - spacewalk-client
